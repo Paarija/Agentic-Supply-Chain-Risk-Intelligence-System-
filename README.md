@@ -1,84 +1,82 @@
-# Agentic Supply Chain Risk Intelligence System  
-### Multi-Agent AI • Streamlit App • CrewAI • Gemini 2.5 • Live Risk Scanning
+# Agentic Supply Chain Risk Intelligence System
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![Streamlit](https://img.shields.io/badge/Streamlit-App-red)
-![CrewAI](https://img.shields.io/badge/CrewAI-Multi--Agent-green)
-![Gemini](https://img.shields.io/badge/Google-Gemini%202.5-yellow)
+A data-driven, multi-agent AI system for analyzing supply chain risks using statistical modeling and LLM-based investigation.
 
+![Agentic Supply Chain System](assets/app_screenshot.png)
 
-The system analyzes supplier delays, identifies high-risk vendors, scans external news for disruptions, and generates a **strategic risk report**—all in one automated workflow.
+## Features
 
----
+- **Statistical Risk Scoring**: Automatically flags risky suppliers using Z-Scores, Percentiles (90th), and Composite Risk Scores.
+- **Multi-Agent AI**:
+  - **Auditor Agent**: Analyzes internal data for anomalies.
+  - **Investigator Agent**: Searches the web for external disruptions (strikes, weather, politics).
+  - **Manager Agent**: Generates strategic action plans (Retain/Monitor/Replace).
+- **Interactive Dashboard**: Built with Streamlit and Plotly for deep data exploration.
+- **Predictive Modeling**: Uses Random Forest to estimate the probability of future disruptions.
+- **Automated EDA**: Instant data quality reports and statistical summaries.
 
-# Features
+## Installation
 
-###  **1. Internal Delay & Risk Analysis**
-- Upload a CSV containing supplier delay data  
-- Automatic detection of suppliers with:
-  - **avg_delay_days > 5**, or  
-  - **risk_score > 50**
-- Highlights all risky suppliers
+1. **Clone the repository**:
+   ```bash
+   git clone <your-repository-url>
+   cd agentic-supply-chain
+   ```
 
-###  **2. External News Investigation (AI Agent)**
-- AI agent queries Google News for each risky supplier's location  
-- Detects:
-  - local strikes  
-  - weather disruptions  
-  - political instability  
-  - transport issues  
-- Falls back to baseline reasoning when news is unavailable  
-  (real-world limitation turned into a feature)
+2. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+   *Note: Ensure you have `plotly`, `crewai`, and `scikit-learn` installed. If you encounter issues with `streamlit` not being found, follow the usage steps below.*
 
-###  **3. Multi-Agent AI Workflow**
-- **Auditor Agent** → analyzes CSV  
-- **Risk Investigator Agent** → researches external risks  
-- **Manager Agent** → produces final actionable recommendations  
-- Powered by **CrewAI**
+3. **Set up API Keys**:
+   This app requires a **Google Gemini API Key** (for the LLM) and a **Serper API Key** (for Google Search). You can enter them in the app sidebar.
 
-###  **4. Auto-Generated Strategic Report**
-Output includes:
-- Supplier risk summary  
-- External news insights  
-- Action plan (retain / monitor / replace)  
-- Markdown format, exportable to PDF
+## Usage
 
-###  **5. Clean & Interactive Streamlit Interface**
-- Upload CSV  
-- Preview dataset  
-- Run full agent pipeline  
-- Get the results instantly
+1. **Run the Application**:
+   Since `streamlit` might not be in your global PATH, use the module invocation:
+   ```bash
+   python -m streamlit run src/app.py
+   ```
+   
+   Alternatively, you can run the provided batch script if available:
+   ```bash
+   src/run_app.bat
+   ```
 
----
-# Demo
-<img width="1366" height="626" alt="Screenshot (1127)" src="https://github.com/user-attachments/assets/83530342-d64b-414d-9f89-5e2b8cac0496" />
-<img width="1366" height="624" alt="Screenshot (1128)" src="https://github.com/user-attachments/assets/74ba1457-b08f-4164-84e8-23f1ecb70d73" />
-<img width="1366" height="626" alt="Screenshot (1129)" src="https://github.com/user-attachments/assets/6fa575a0-41bf-4524-9866-5243c513a0c4" />
+2. **Analyze Data**:
+   - **Upload CSV**: Upload your own supplier data.
+   - **Use Demo Data**: Toggle the checkbox to load built-in synthetic data for testing.
 
+3. **Kickoff Agents**:
+   - Scroll down to the "Agentic Investigation" section.
+   - Click **Kickoff Agents**.
+   - The system will sequentially audit suppliers, check external news, and generate a final report.
 
+## Project Structure
 
-# 📁 Sample Dataset Structure
+```
+├── src/
+│   ├── app.py               # Modular entry point (Run this)
+│   ├── agents/              # CrewAI Agent definitions
+│   ├── analysis/            # Risk scoring & Feature engineering logic
+│   ├── models/              # Predictive models
+│   ├── visualization/       # Plotly chart generation
+│   └── full_app.py          # Legacy monolithic version
+├── data/
+│   └── sample_suppliers.csv # Sample dataset
+├── requirements.txt         # Python dependencies
+└── README.md                # This file
+```
 
-Your internal_suppliers.csv should contain:
+## Testing
 
-| supplier_id | supplier_name | location | avg_delay_days | risk_score |
-|-------------|----------------|-----------|------------------|-------------|
-| 1 | Flashpoint | Gunajaya | 11 | 42 |
-| 2 | Yodoo | Kitui | 10 | 71 |
-| ... | ... | ... | ... | ... |
-
-*(This project uses a synthetic dataset generated via Mockaroo to simulate real supplier behavior.)*
-
----
-
-#  How to Run Locally
-
+Run the test suite to verify the logic:
 ```bash
-# 1. Clone repo
-git clone https://github.com/Paarija/Agentic-Supply-Chain-Risk-Intelligence-System.git
-cd Agentic-Supply-Chain-Risk-Intelligence-System
-# 2. Install dependencies
-pip install -r requirements.txt
+python -m pytest
+```
 
-# 3. Run the application
-streamlit run app.py
+## License
+
+MIT License
