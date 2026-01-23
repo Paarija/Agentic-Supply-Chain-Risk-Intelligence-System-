@@ -1,5 +1,8 @@
+streamlit
+pandas
+numpy
+scipy
+scikit-learn
+plotly
 crewai
 crewai-tools
-langchain-google-genai
-pandas
-streamlit
