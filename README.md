@@ -2,7 +2,11 @@
 
 A data-driven, multi-agent AI system for analyzing supply chain risks using statistical modeling and LLM-based investigation.
 
-![Agentic Supply Chain System](assets/app_screenshot.png)
+![Agentic Supply Chain System](assets/1.png)
+
+![Agentic Supply Chain System](assets/2.png)
+
+![Agentic Supply Chain System](assets/3.png)
 
 ## Features
 
@@ -80,3 +84,4 @@ python -m pytest
 ## License
 
 MIT License
+
