@@ -26,19 +26,7 @@ def calculate_risk_metrics(df):
         df['risk_zscore'] = 0
     df['is_delay_anomaly_zscore'] = df['delay_zscore'] > 2
     df['is_risk_anomaly_zscore'] = df['risk_zscore'] > 2
-    max_delay = df['avg_delay_days'].max()
-    min_delay = df['avg_delay_days'].min()
-    ptp_delay = max_delay - min_delay
-    if ptp_delay == 0: ptp_delay = 1
-
-    max_risk = df['risk_score'].max()
-    min_risk = df['risk_score'].min()
-    ptp_risk = max_risk - min_risk
-    if ptp_risk == 0: ptp_risk = 1
-
-    norm_delay = (df['avg_delay_days'] - min_delay) / ptp_delay
-    norm_risk = (df['risk_score'] - min_risk) / ptp_risk
-    df['composite_risk_score'] = (0.6 * norm_delay) + (0.4 * norm_risk)
+    
 
     mask_statistical = (
         (df['is_delay_outlier_percentile']) | 
