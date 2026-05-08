@@ -6,11 +6,9 @@ def train_predictive_model(df):
     df = df.copy()
     default = (df.assign(predicted_risk_probability=0.0), {})
 
-    # Need the target column and enough rows
     if 'caused_disruption' not in df.columns or len(df) < 5:
         return default
 
-    # Select whichever features exist in the data
     features = ['avg_delay_days', 'risk_score', 'geographic_risk_index',
                 'delay_volatility', 'lead_time_variance', 'on_time_delivery_rate']
     available = [f for f in features if f in df.columns]
@@ -21,7 +19,7 @@ def train_predictive_model(df):
     y = df['caused_disruption']
 
     try:
-        X_clean = SimpleImputer(strategy='mean').fit_transform(X)  # fill NaNs
+        X_clean = SimpleImputer(strategy='mean').fit_transform(X)  
 
         model = RandomForestClassifier(n_estimators=100, random_state=42)
         model.fit(X_clean, y)
