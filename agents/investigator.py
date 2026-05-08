@@ -2,40 +2,23 @@ from crewai import Agent, Task
 from crewai_tools import SerperDevTool
 
 def create_investigator_agent(llm):
-    search_tool = SerperDevTool()
-    
-    agent = Agent(
+    return Agent(
         role='Risk Investigator',
         goal='Investigate external factors (strikes, weather, politics) for flagged locations.',
-        backstory="You are an expert in OSINT (Open Source Intelligence). You verify if internal delays are caused by external disruptions.",
-        tools=[search_tool],
-        llm=llm,
-        verbose=True
+        backstory="OSINT expert who verifies if delays are caused by external disruptions.",
+        tools=[SerperDevTool()],   # Google Search via Serper API
+        llm=llm, verbose=True
     )
-    return agent
 
 def create_investigator_task(agent, context_tasks):
     return Task(
         description="""
-        For each risky supplier identified by the Auditor, investigate external factors:
-        
-        1. SEARCH PARAMETERS:
-           - Query: "[Location] supply chain OR logistics OR disruption OR strike OR weather"
-           - Time range: Last 30 days implied (unless tool supports specific range)
-        
-        2. STRUCTURED OUTPUT FOR EACH SUPPLIER:
-           | Supplier | Location | External Factor | Source | Confidence |
-           
-           Factors to investigate:
-           - Labor strikes/disputes
-           - Weather events (floods, storms)
-           - Political instability
-           - Port congestion
-        
-        3. FALLBACK REASONING:
-           If no news found, provide baseline geographic risk assessment based on the location.
+        For each risky supplier from the Auditor:
+        1. Search: "[Location] supply chain OR disruption OR strike OR weather"
+        2. Return a table: | Supplier | Location | External Factor | Source | Confidence |
+        3. If no news found, provide a baseline geographic risk assessment.
         """,
         expected_output="Structured external risk assessment per supplier",
         agent=agent,
-        context=context_tasks
+        context=context_tasks   # receives output from the Auditor task
     )
